@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style>
+		span{
+			width: 200px;
+			text-align: right;
+			display: inline-block;
+		}
+		*{
+			margin-bottom: 3px;
+		}
+	</style>
+	<body>
+		<form action="http://www.baidu.com" method="post">
+		<span>用户名：</span>
+		<input type="text" id="logname" onblur="c()"/>
+		<label id="um" style="color: red; font: 5px;"></label><br />
+		<span>密码：</span>
+		<input type="password" id="password"/>
+		<label id="pm" style="color: red; font: 5px;"></label><br />
+		<span>电话：</span>
+		<input type="text" id="phone" onblur="c()"/><br />
+		<span>地址：</span>
+		<input type="text" id="address" onblur="c()"/><br />
+		<span>真实姓名：</span>
+		<input type="text" id="realname" onblur="c()"/><br />
+		<span>验证码：</span>
+		<input type="text" disabled="disabled" style="width: 66px;text-align: center;" value="" id="tochick"/>
+		<input type="text" maxlength="4" style="width: 66px;" id="chick"/>
+		<label id="cm" style="color: green; font: 5px;"></label><br />
+		<span></span><input type="submit" value="提交" disabled="disabled" id="submit"/>
+		<input type="reset" value="重置" />
+	</form>
+	</body>
+	<script type="text/javascript" src="../js/jquery-3.3.1.min.js" ></script>
+	<script type="text/javascript">	
+		var a ="";
+		$(document).ready(function(){
+			a = Math.random().toString(36).substr(2,4);
+			$("input#tochick").val(a);
+		});
+		$("input#chick").blur(function(){
+			var c = $("input#chick").val().toLowerCase();
+			if(c == a){
+				$("#cm").css({"color":"green","font":"3px"});
+				$("#cm").html("✔验证码正确");
+				var a1 = $("#logname").val();
+				var a2 = $("#password").val();
+				if(a1.length>0&&a2.length>0){
+					$("#submit").removeAttr("disabled");
+				}else{
+					
+				}
+			}else {
+				$("#cm").css({"color":"red","font":"3px"});
+				$("#cm").html("✘验证码错误");
+				$("#submit").attr("disabled","disabled");
+			}
+		});
+		$("#cm").focus(function(){
+			$("#cm").html("");
+		});
+		$("input#logname").blur(function(){
+			var m = $("input#logname").val()+"";
+			if(m.length<=0){
+				$("label#um").html("*用户名不能为空");
+			}else if(m.length>20){
+				$("label#um").html("*长度不能大于20个字符");
+			}
+		});
+		$("input#logname").focus(function(){
+			$("label#um").html("");
+		});
+		$("input#password").blur(function (){
+			var m = $("input#password").val()+"";
+			if(m.length<=0){
+				$("label#pm").css({"color":"red","font":"3px"});
+				$("label#pm").html("<span style='background: red;width: 30px;height: 10px;'></span>✘密码不能为空");
+			}
+			else if(m.length<=6){
+				$("label#pm").css({"color":"yellow","font":"3px"});
+				$("label#pm").html("<span style='background: red;width: 30px;height: 10px;'></span><span style='background: yellow;width: 30px;height: 10px;'></span>!密码弱");
+			}else {
+				$("label#pm").css("color","green")
+				$("label#pm").html("<span style='background: red;width: 30px;height: 10px;'></span><span style='background: yellow;width: 30px;height: 10px;'></span><span style='background: green;width: 30px;height: 10px;'></span>✔密码强");
+			}
+		});
+		$("input#password").focus(function(){
+			$("label#pm").html("");
+		});
+	</script>
+</html>
